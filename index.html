@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gene Editing Ethics Interactive Debate Assignment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border: none;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .tab-navigation {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6c757d;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+        }
+
+        .tab-button:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .tab-button.active {
+            color: #2196F3;
+            border-bottom-color: #2196F3;
+            background: white;
+        }
+
+        .tab-button:focus {
+            outline: 2px solid #2196F3;
+            outline-offset: -2px;
+        }
+
+        .tab-content {
+            flex: 1;
+            overflow: hidden;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .instructions-content {
+            padding: 20px;
+            overflow-y: auto;
+            line-height: 1.7;
+        }
+
+        .instructions-content h2 {
+            color: #2196F3;
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        .instructions-content h3 {
+            color: #333;
+            font-size: 16px;
+            margin: 15px 0 8px 0;
+            font-weight: 600;
+        }
+
+        .instructions-content p {
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .instructions-content ul {
+            margin: 10px 0 15px 20px;
+            color: #555;
+        }
+
+        .instructions-content li {
+            margin-bottom: 8px;
+        }
+
+        .slo-box {
+            background: #f8f9fa;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .round-instructions {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .round-instructions h4 {
+            color: #1976d2;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .chat-area {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            line-height: 1.5;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .bot-message {
+            background: #f5f7fa;
+            color: #2c3e50;
+            align-self: flex-start;
+            border-bottom-left-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 8px;
+        }
+
+        .input-area {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+            background: #fafafa;
+        }
+
+        .input-container {
+            flex: 1;
+            position: relative;
+        }
+
+        #userInput {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #userInput:focus {
+            border-color: #2196F3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+
+        #sendBtn {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        #sendBtn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
+        }
+
+        #sendBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #sendBtn:focus {
+            outline: 2px solid #2196F3;
+            outline-offset: 2px;
+        }
+
+        .stance-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stance-btn {
+            padding: 10px 18px;
+            border: 2px solid #2196F3;
+            background: white;
+            color: #2196F3;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .stance-btn.active {
+            background: #2196F3;
+            color: white;
+        }
+
+        .stance-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+        }
+
+        .stance-btn:focus {
+            outline: 2px solid #2196F3;
+            outline-offset: 2px;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            padding: 15px 20px;
+            background: #f5f7fa;
+            border-radius: 18px;
+            border-bottom-left-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #2196F3;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-message {
+            text-align: center;
+            color: #666;
+            padding: 40px 20px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .round-indicator {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+            color: #2e7d32;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 8px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4caf50, #2e7d32);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .accessibility-controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            z-index: 1000;
+        }
+
+        .accessibility-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .accessibility-btn:focus {
+            outline: 2px solid #ffffff;
+        }
+
+        .high-contrast {
+            filter: contrast(150%) brightness(110%);
+        }
+
+        .large-text {
+            font-size: 120% !important;
+        }
+
+        .large-text .message {
+            font-size: 18px !important;
+        }
+
+        .large-text #userInput {
+            font-size: 18px !important;
+        }
+
+        /* Screen reader only content */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Reduced motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .container {
+                border: 2px solid;
+            }
+            
+            .message {
+                border: 2px solid;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .accessibility-controls,
+            .input-area,
+            .tab-navigation {
+                display: none;
+            }
+            
+            .container {
+                height: auto;
+            }
+            
+            .chat-area {
+                overflow: visible;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="accessibility-controls">
+        <button class="accessibility-btn" onclick="toggleHighContrast()" aria-label="Toggle high contrast mode">
+            High Contrast
+        </button>
+        <button class="accessibility-btn" onclick="toggleLargeText()" aria-label="Toggle large text mode">
+            Large Text
+        </button>
+    </div>
+
+    <div class="container" role="main">
+        <div class="header">
+            <h1>🧬 Gene Editing Ethics Interactive Debate Assignment</h1>
+            <p>Explore ethical perspectives through guided dialogue • 25 points • 75-90 minutes</p>
+        </div>
+        
+        <nav class="tab-navigation" role="tablist" aria-label="Assignment sections">
+            <button class="tab-button active" role="tab" aria-selected="true" aria-controls="instructions-panel" id="instructions-tab" onclick="switchTab('instructions')">
+                📋 Assignment Instructions
+            </button>
+            <button class="tab-button" role="tab" aria-selected="false" aria-controls="debate-panel" id="debate-tab" onclick="switchTab('debate')">
+                💬 Interactive Debate
+            </button>
+        </nav>
+
+        <div id="instructions-panel" class="tab-content active" role="tabpanel" aria-labelledby="instructions-tab">
+            <div class="instructions-content">
+                <h2>Assignment Overview</h2>
+                <p>You will engage with an AI debate bot to explore competing perspectives on gene editing ethics through structured dialogue, then reflect on how this interactive process shaped your thinking.</p>
+
+                <h2>Student Learning Outcomes</h2>
+                <div class="slo-box">
+                    <strong>SLO 1: Engage in Ethical Dialogue and Reasoning</strong><br>
+                    Articulate and defend ethical positions on gene editing while demonstrating openness to counterarguments that challenge their reasoning.
+                </div>
+                
+                <div class="slo-box">
+                    <strong>SLO 2: Analyze Multiple Ethical Perspectives</strong><br>
+                    Identify competing values and stakeholder viewpoints in gene editing debates to understand the complexity of bioethical decision-making.
+                </div>
+                
+                <div class="slo-box">
+                    <strong>SLO 3: Reflect on Ethical Reasoning Process</strong><br>
+                    Evaluate how their thinking evolved through interactive dialogue and assess their openness to modifying moral positions based on compelling arguments.
+                </div>
+
+                <h2>Three Debate Rounds (50-60 minutes total)</h2>
+                
+                <div class="round-instructions">
+                    <h4>Round 1: Initial Position (15-20 minutes)</h4>
+                    <ul>
+                        <li>Choose your genuine initial stance on gene editing ethics</li>
+                        <li>Engage authentically with the bot's challenges to your position</li>
+                        <li><strong>Goal:</strong> Experience having your views tested through dialogue</li>
+                    </ul>
+                </div>
+
+                <div class="round-instructions">
+                    <h4>Round 2: Opposition Perspective (15-20 minutes)</h4>
+                    <ul>
+                        <li>Select the stance <strong>most opposite</strong> to your personal views</li>
+                        <li>Attempt to argue genuinely from this perspective</li>
+                        <li><strong>Goal:</strong> Understand how others might reason differently</li>
+                    </ul>
+                </div>
+
+                <div class="round-instructions">
+                    <h4>Round 3: Nuanced Position (15-20 minutes)</h4>
+                    <ul>
+                        <li>Choose "Regulated Approach" or explore specific scenarios</li>
+                        <li>Engage with complex, real-world applications</li>
+                        <li><strong>Goal:</strong> Grapple with practical implementation challenges</li>
+                    </ul>
+                </div>
+
+                <h2>Reflection Questions (Submit via Canvas)</h2>
+                <p><strong>Length:</strong> 400-600 words total | <strong>Due:</strong> End of class period</p>
+
+                <h3>Question 1: Evolution of Thinking (150-200 words)</h3>
+                <p>Describe how your perspective changed during the three rounds. Include your starting position, surprising challenges, and how arguing from an opposing perspective affected your understanding.</p>
+
+                <h3>Question 2: Most Compelling Challenge (100-150 words)</h3>
+                <p>Identify the single most compelling counterargument the bot presented. Explain what made it strong, how you responded, and whether it weakened or strengthened your position.</p>
+
+                <h3>Question 3: Ethical Complexity Recognition (150-200 words)</h3>
+                <p>Reflect on what this process revealed about bioethical decision-making, competing values you discovered, and how real-world decision-makers might experience similar tensions.</p>
+
+                <h2>Assessment Criteria (25 points)</h2>
+                <ul>
+                    <li><strong>Excellent (23-25):</strong> Genuine engagement, clear thinking evolution, recognizes complexity</li>
+                    <li><strong>Proficient (20-22):</strong> Good engagement, some evidence of reflection, understands basic tensions</li>
+                    <li><strong>Developing (17-19):</strong> Basic completion, minimal reflection depth, surface-level recognition</li>
+                    <li><strong>Inadequate (&lt;17):</strong> Minimal engagement, no evidence of reflection or growth</li>
+                </ul>
+
+                <h2>Tips for Success</h2>
+                <ul>
+                    <li><strong>Engage authentically</strong> - Don't just go through the motions</li>
+                    <li><strong>Take notes</strong> on challenging exchanges for your reflection</li>
+                    <li><strong>Be genuinely open</strong> to unfamiliar perspectives in Round 2</li>
+                    <li><strong>Focus on process</strong> rather than defending a final position</li>
+                    <li><strong>Ask for help</strong> if you experience technical difficulties</li>
+                </ul>
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <button class="stance-btn" onclick="switchTab('debate')" style="background: #4caf50; color: white; border-color: #4caf50; font-size: 16px; padding: 15px 30px;">
+                        ▶️ Start Your Debate Rounds
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="debate-panel" class="tab-content" role="tabpanel" aria-labelledby="debate-tab">
+            <div class="round-indicator" id="roundIndicator" aria-live="polite">
+                Ready to begin - Select your stance for Round 1
+            </div>
+            
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="3" aria-label="Debate rounds progress">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
+            <div class="chat-area" id="chatArea" aria-live="polite" aria-label="Debate conversation">
+                <div class="welcome-message">
+                    <h3>Welcome to Round 1: Initial Position</h3>
+                    <p>Choose your genuine stance below and engage authentically with the bot's challenges. Remember: there are no "correct" answers - focus on the reasoning process.</p>
+                </div>
+            </div>
+            
+            <div class="typing-indicator" id="typingIndicator" aria-label="Bot is typing">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <div style="width: 100%;">
+                    <div class="stance-selector" id="stanceSelector" role="radiogroup" aria-label="Choose your stance on gene editing">
+                        <button class="stance-btn" role="radio" aria-checked="false" data-stance="pro" onclick="selectStance('pro')">
+                            ✅ Pro Gene Editing
+                        </button>
+                        <button class="stance-btn" role="radio" aria-checked="false" data-stance="anti" onclick="selectStance('anti')">
+                            ❌ Against Gene Editing
+                        </button>
+                        <button class="stance-btn" role="radio" aria-checked="false" data-stance="regulated" onclick="selectStance('regulated')">
+                            ⚖️ Regulated Approach
+                        </button>
+                        <button class="stance-btn" role="radio" aria-checked="false" data-stance="neutral" onclick="selectStance('neutral')">
+                            🤔 Just Learning
+                        </button>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <div class="input-container">
+                            <label for="userInput" class="sr-only">Type your response to the debate bot</label>
+                            <input type="text" id="userInput" placeholder="Share your thoughts on gene editing ethics..." disabled aria-describedby="input-help">
+                            <div id="input-help" class="sr-only">Press Enter or click Send to submit your response</div>
+                        </div>
+                        <button id="sendBtn" disabled onclick="handleSend()" aria-label="Send message">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class GeneEditingDebateBot {
+            constructor() {
+                this.chatArea = document.getElementById('chatArea');
+                this.userInput = document.getElementById('userInput');
+                this.sendBtn = document.getElementById('sendBtn');
+                this.typingIndicator = document.getElementById('typingIndicator');
+                this.stanceSelector = document.getElementById('stanceSelector');
+                this.roundIndicator = document.getElementById('roundIndicator');
+                this.progressFill = document.getElementById('progressFill');
+                
+                this.currentStance = null;
+                this.currentRound = 1;
+                this.conversationHistory = [];
+                this.debatePoints = this.initializeDebatePoints();
+                this.roundMessages = 0;
+                
+                this.setupEventListeners();
+                this.announceToScreenReader("Assignment loaded. Review instructions first, then switch to the Interactive Debate tab.");
+            }
+
+            initializeDebatePoints() {
+                return {
+                    pro: {
+                        arguments: [
+                            "Gene editing can eliminate hereditary diseases like Huntington's and sickle cell anemia, preventing immense suffering.",
+                            "CRISPR technology could enhance human capabilities, making us more resistant to diseases and environmental challenges.",
+                            "Agricultural gene editing can create crops resistant to climate change, helping feed the growing global population.",
+                            "Gene therapy has already shown success in treating previously incurable conditions."
+                        ],
+                        counterpoints: [
+                            "But what about the risk of creating irreversible genetic changes that could have unforeseen consequences?",
+                            "Doesn't enhancement create unfair advantages and potentially widen social inequality?",
+                            "Are we playing God with the fundamental building blocks of life?",
+                            "What about consent? Future generations can't consent to genetic modifications."
+                        ]
+                    },
+                    anti: {
+                        arguments: [
+                            "Gene editing poses unknown risks to future generations who cannot consent to these changes.",
+                            "It could create a genetic class divide between the enhanced and unenhanced.",
+                            "We're interfering with natural evolution and biodiversity.",
+                            "The technology could be misused for eugenics or creating 'designer babies'."
+                        ],
+                        counterpoints: [
+                            "But don't we have a moral obligation to prevent genetic diseases when we can?",
+                            "Isn't medical intervention already 'unnatural'? Where do we draw the line?",
+                            "Could regulation and ethical oversight address these concerns?",
+                            "What about the suffering we could prevent with responsible use?"
+                        ]
+                    },
+                    regulated: {
+                        arguments: [
+                            "Strict international regulations could allow beneficial uses while preventing abuse.",
+                            "We can distinguish between therapeutic applications and enhancement.",
+                            "Gradual, monitored implementation would help us understand long-term effects.",
+                            "Democratic oversight and public engagement can guide ethical development."
+                        ],
+                        counterpoints: [
+                            "But can we really enforce international regulations on such powerful technology?",
+                            "Who decides what counts as 'therapeutic' versus 'enhancement'?",
+                            "Wouldn't some countries ignore regulations to gain competitive advantages?",
+                            "Is the technology moving too fast for regulation to keep up?"
+                        ]
+                    }
+                };
+            }
+
+            setupEventListeners() {
+                this.userInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.handleSend();
+                });
+            }
+
+            selectStance(stance) {
+                // Update ARIA states
+                document.querySelectorAll('.stance-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.setAttribute('aria-checked', 'false');
+                });
+                
+                const selectedBtn = document.querySelector(`[data-stance="${stance}"]`);
+                selectedBtn.classList.add('active');
+                selectedBtn.setAttribute('aria-checked', 'true');
+                
+                this.currentStance = stance;
+                this.userInput.disabled = false;
+                this.sendBtn.disabled = false;
+                this.userInput.focus();
+                this.roundMessages = 0;
+
+                // Clear welcome message and start debate
+                this.clearWelcomeMessage();
+                this.startDebate(stance);
+                this.updateProgress();
+                
+                this.announceToScreenReader(`Selected stance: ${selectedBtn.textContent.trim()}. Round ${this.currentRound} started.`);
+            }
+
+            clearWelcomeMessage() {
+                const welcomeMsg = document.querySelector('.welcome-message');
+                if (welcomeMsg) {
+                    welcomeMsg.remove();
+                }
+            }
+
+            startDebate(stance) {
+                const openingMessages = {
+                    pro: "Interesting! You support gene editing. Let me challenge that view: Don't you think we're taking dangerous risks with the human genome that could have irreversible consequences for future generations?",
+                    anti: "I see you're against gene editing. But consider this: if we can prevent a child from being born with a devastating genetic disease, don't we have a moral obligation to do so?",
+                    regulated: "A regulated approach sounds reasonable. But realistically, how can we enforce international standards when countries like China have already pushed boundaries? Won't regulation just slow down beneficial research?",
+                    neutral: "Great! Let's explore this together. Here's a key question to start: If you could edit the genes of your future child to prevent them from getting a fatal disease, would you do it? Why or why not?"
+                };
+
+                setTimeout(() => {
+                    this.addBotMessage(openingMessages[stance] || openingMessages.neutral);
+                }, 1000);
+            }
+
+            handleSend() {
+                const message = this.userInput.value.trim();
+                if (!message) return;
+
+                this.addUserMessage(message);
+                this.userInput.value = '';
+                this.userInput.disabled = true;
+                this.sendBtn.disabled = true;
+                this.roundMessages++;
+
+                // Show typing indicator
+                this.showTyping();
+
+                // Generate response
+                setTimeout(() => {
+                    const response = this.generateResponse(message);
+                    this.hideTyping();
+                    this.addBotMessage(response);
+                    
+                    // Check if round should advance
+                    if (this.roundMessages >= 6) {
+                        this.advanceRound();
+                    } else {
+                        this.userInput.disabled = false;
+                        this.sendBtn.disabled = false;
+                        this.userInput.focus();
+                    }
+                }, 1500 + Math.random() * 1000);
+            }
+
+            advanceRound() {
+                if (this.currentRound < 3) {
+                    this.currentRound++;
+                    this.roundMessages = 0;
+                    this.updateRoundIndicator();
+                    this.updateProgress();
+                    this.resetStanceSelection();
+                    
+                    const roundMessages = {
+                        2: "Round 2: Opposition Perspective - Now choose the stance MOST OPPOSITE to your personal views and try to argue from that perspective.",
+                        3: "Round 3: Nuanced Position - Choose 'Regulated Approach' or explore how gene editing might work in complex, real-world scenarios."
+                    };
+                    
+                    setTimeout(() => {
+                        this.addSystemMessage(roundMessages[this.currentRound]);
+                        this.announceToScreenReader(`Round ${this.currentRound} started. ${roundMessages[this.currentRound]}`);
+                    }, 2000);
+                } else {
+                    // Assignment complete
+                    setTimeout(() => {
+                        this.addSystemMessage("🎉 Debate rounds complete! Now reflect on your experience and submit your responses via Canvas. Consider: How did your thinking evolve? What challenged you most? What did this reveal about ethical complexity?");
+                        this.announceToScreenReader("All three debate rounds completed. Time to complete your reflection questions and submit via Canvas.");
+                    }, 2000);
+                }
+            }
+
+            updateRoundIndicator() {
+                const roundTexts = {
+                    1: "Round 1: Initial Position - Choose your genuine stance",
+                    2: "Round 2: Opposition Perspective - Argue from the opposite viewpoint", 
+                    3: "Round 3: Nuanced Position - Explore complex scenarios"
+                };
+                this.roundIndicator.textContent = roundTexts[this.currentRound];
+            }
+
+            updateProgress() {
+                const progressPercentage = ((this.currentRound - 1) / 3) * 100;
+                this.progressFill.style.width = `${progressPercentage}%`;
+                
+                const progressBar = document.querySelector('.progress-bar');
+                progressBar.setAttribute('aria-valuenow', this.currentRound - 1);
+            }
+
+            resetStanceSelection() {
+                document.querySelectorAll('.stance-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.setAttribute('aria-checked', 'false');
+                });
+                this.currentStance = null;
+                this.userInput.disabled = true;
+                this.sendBtn.disabled = true;
+            }
+
+            generateResponse(userMessage) {
+                const responses = [
+                    "That's an interesting perspective, but have you considered the potential for genetic modifications to create unforeseen health complications decades later?",
+                    "I understand your point, but what about the ethical issue of consent? Future generations can't agree to the genetic changes we make today.",
+                    "While that sounds beneficial, couldn't this technology lead to a two-tiered society of the genetically enhanced and unenhanced?",
+                    "You make a good argument, but doesn't this open the door to eugenics and 'designer babies' chosen by parental preference rather than medical necessity?",
+                    "Here's a scenario: If gene editing becomes common, what happens to genetic diversity? Could we accidentally make humans more vulnerable to new diseases?",
+                    "Consider this dilemma: Should we edit genes to prevent schizophrenia if we're not sure those genes don't also contribute to creativity or intelligence?",
+                    "What if gene editing becomes so expensive that only the wealthy can afford genetic enhancements for their children? Is that ethical?",
+                    "If we can edit genes to prevent disease, what about editing for intelligence, strength, or appearance? Where do we draw the line?",
+                    this.getStanceBasedResponse(userMessage),
+                    "Let me ask you this: Who should have the authority to decide which genetic traits are 'desirable' or 'undesirable'?",
+                    "What's your view on this: Should parents have the right to refuse genetic editing that could prevent their child's suffering?",
+                    "Here's a tough question: If everyone has access to genetic enhancement, are we obligated to enhance our children to keep them competitive?"
+                ];
+
+                const validResponses = responses.filter(r => r && typeof r === 'string');
+                return validResponses[Math.floor(Math.random() * validResponses.length)];
+            }
+
+            getStanceBasedResponse(userMessage) {
+                if (!this.currentStance || !this.debatePoints[this.currentStance]) {
+                    return null;
+                }
+
+                const points = this.debatePoints[this.currentStance];
+                const useCounter = Math.random() > 0.6;
+                
+                if (useCounter && points.counterpoints.length > 0) {
+                    return points.counterpoints[Math.floor(Math.random() * points.counterpoints.length)];
+                } else if (points.arguments.length > 0) {
+                    return "But consider this perspective: " + points.arguments[Math.floor(Math.random() * points.arguments.length)];
+                }
+                
+                return null;
+            }
+
+            addUserMessage(message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message user-message';
+                messageDiv.textContent = message;
+                messageDiv.setAttribute('role', 'log');
+                messageDiv.setAttribute('aria-label', `Your message: ${message}`);
+                this.chatArea.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            addBotMessage(message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message bot-message';
+                messageDiv.textContent = message;
+                messageDiv.setAttribute('role', 'log');
+                messageDiv.setAttribute('aria-label', `Bot response: ${message}`);
+                this.chatArea.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            addSystemMessage(message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.style.background = '#fff3cd';
+                messageDiv.style.border = '1px solid #ffeaa7';
+                messageDiv.style.color = '#856404';
+                messageDiv.style.alignSelf = 'center';
+                messageDiv.style.textAlign = 'center';
+                messageDiv.style.fontWeight = '600';
+                messageDiv.style.maxWidth = '90%';
+                messageDiv.textContent = message;
+                messageDiv.setAttribute('role', 'alert');
+                messageDiv.setAttribute('aria-label', `System message: ${message}`);
+                this.chatArea.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            showTyping() {
+                this.typingIndicator.style.display = 'block';
+                this.typingIndicator.setAttribute('aria-label', 'Bot is typing a response');
+                this.scrollToBottom();
+            }
+
+            hideTyping() {
+                this.typingIndicator.style.display = 'none';
+                this.typingIndicator.removeAttribute('aria-label');
+            }
+
+            scrollToBottom() {
+                setTimeout(() => {
+                    this.chatArea.scrollTop = this.chatArea.scrollHeight;
+                }, 100);
+            }
+
+            announceToScreenReader(message) {
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.setAttribute('aria-atomic', 'true');
+                announcement.className = 'sr-only';
+                announcement.textContent = message;
+                document.body.appendChild(announcement);
+                
+                setTimeout(() => {
+                    document.body.removeChild(announcement);
+                }, 1000);
+            }
+        }
+
+        // Global functions for accessibility and navigation
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+            
+            // Show selected tab content
+            document.getElementById(`${tabName}-panel`).classList.add('active');
+            
+            // Activate selected tab button
+            const activeTab = document.getElementById(`${tabName}-tab`);
+            activeTab.classList.add('active');
+            activeTab.setAttribute('aria-selected', 'true');
+            
+            // Focus management
+            if (tabName === 'debate') {
+                setTimeout(() => {
+                    const firstStanceBtn = document.querySelector('.stance-btn');
+                    if (firstStanceBtn) firstStanceBtn.focus();
+                }, 100);
+            }
+            
+            // Announce tab change to screen readers
+            const announcement = `Switched to ${tabName === 'instructions' ? 'Assignment Instructions' : 'Interactive Debate'} section`;
+            announceToScreenReader(announcement);
+        }
+
+        function selectStance(stance) {
+            if (window.debateBot) {
+                window.debateBot.selectStance(stance);
+            }
+        }
+
+        function handleSend() {
+            if (window.debateBot) {
+                window.debateBot.handleSend();
+            }
+        }
+
+        function toggleHighContrast() {
+            document.body.classList.toggle('high-contrast');
+            const isEnabled = document.body.classList.contains('high-contrast');
+            announceToScreenReader(`High contrast mode ${isEnabled ? 'enabled' : 'disabled'}`);
+        }
+
+        function toggleLargeText() {
+            document.body.classList.toggle('large-text');
+            const isEnabled = document.body.classList.contains('large-text');
+            announceToScreenReader(`Large text mode ${isEnabled ? 'enabled' : 'disabled'}`);
+        }
+
+        function announceToScreenReader(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'sr-only';
+            announcement.textContent = message;
+            document.body.appendChild(announcement);
+            
+            setTimeout(() => {
+                if (document.body.contains(announcement)) {
+                    document.body.removeChild(announcement);
+                }
+            }, 1000);
+        }
+
+        // Keyboard navigation support
+        document.addEventListener('keydown', function(e) {
+            // Tab navigation for stance buttons
+            if (e.target.classList.contains('stance-btn')) {
+                let buttons = Array.from(document.querySelectorAll('.stance-btn'));
+                let currentIndex = buttons.indexOf(e.target);
+                
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    let nextIndex = (currentIndex + 1) % buttons.length;
+                    buttons[nextIndex].focus();
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    let prevIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+                    buttons[prevIndex].focus();
+                } else if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    e.target.click();
+                }
+            }
+            
+            // Tab navigation for main tabs
+            if (e.target.classList.contains('tab-button')) {
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    const nextTab = e.target.nextElementSibling;
+                    if (nextTab) {
+                        nextTab.click();
+                        nextTab.focus();
+                    }
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    const prevTab = e.target.previousElementSibling;
+                    if (prevTab) {
+                        prevTab.click();
+                        prevTab.focus();
+                    }
+                }
+            }
+        });
+
+        // Initialize the bot when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.debateBot = new GeneEditingDebateBot();
+            
+            // Set initial focus for accessibility
+            setTimeout(() => {
+                document.getElementById('instructions-tab').focus();
+            }, 500);
+        });
+
+        // Handle focus trap in modal-like interface
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                const focusableElements = document.querySelectorAll(
+                    'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                );
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+                
+                if (e.shiftKey && document.activeElement === firstElement) {
+                    e.preventDefault();
+                    lastElement.focus();
+                } else if (!e.shiftKey && document.activeElement === lastElement) {
+                    e.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
